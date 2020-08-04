@@ -1,6 +1,8 @@
 package tm;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Coordinate {
 	public int row;
@@ -55,6 +57,86 @@ public class Coordinate {
 				allCoordinates.add(new Coordinate(row, 12));
 		}
 		return allCoordinates;
+	}
+
+	public Set<Coordinate> neighbourCoordinates() {
+		Set<Coordinate> neighbourCoordinates = new HashSet<Coordinate>();
+
+		boolean isShorterRow = (row % 2 != 0);
+
+		if (row > 0 && row < 8 && column > 0 && column < 11) {
+			neighbourCoordinates.add(new Coordinate(row, column - 1));
+			neighbourCoordinates.add(new Coordinate(row, column + 1));
+			neighbourCoordinates.add(new Coordinate(row - 1, column));
+			neighbourCoordinates.add(new Coordinate(row + 1, column));
+			if (isShorterRow) {
+				neighbourCoordinates.add(new Coordinate(row - 1, column + 1));
+				neighbourCoordinates.add(new Coordinate(row + 1, column + 1));
+			} else {
+				neighbourCoordinates.add(new Coordinate(row - 1, column - 1));
+				neighbourCoordinates.add(new Coordinate(row + 1, column - 1));
+			}
+		}
+
+		if (row == 0) {
+			if (column != 0) {
+				neighbourCoordinates.add(new Coordinate(row, column - 1));
+				neighbourCoordinates.add(new Coordinate(row + 1, column - 1));
+			}
+			if (column != 12) {
+				neighbourCoordinates.add(new Coordinate(row, column + 1));
+				neighbourCoordinates.add(new Coordinate(row + 1, column));
+			}
+		}
+
+		if (row == 8) {
+			if (column != 0) {
+				neighbourCoordinates.add(new Coordinate(row, column - 1));
+				neighbourCoordinates.add(new Coordinate(row - 1, column - 1));
+			}
+			if (column != 12) {
+				neighbourCoordinates.add(new Coordinate(row, column + 1));
+				neighbourCoordinates.add(new Coordinate(row - 1, column));
+			}
+		}
+
+		if (column == 0) {
+			neighbourCoordinates.add(new Coordinate(row - 1, column));
+			neighbourCoordinates.add(new Coordinate(row, column + 1));
+			neighbourCoordinates.add(new Coordinate(row + 1, column));
+			if (isShorterRow) {
+				neighbourCoordinates.add(new Coordinate(row - 1, column + 1));
+				neighbourCoordinates.add(new Coordinate(row + 1, column + 1));
+			}
+		}
+
+		if (column == 12) {
+			neighbourCoordinates.add(new Coordinate(row - 1, column - 1));
+			neighbourCoordinates.add(new Coordinate(row, column - 1));
+			neighbourCoordinates.add(new Coordinate(row + 1, column - 1));
+			if (isShorterRow) {
+				neighbourCoordinates.add(new Coordinate(row - 1, column + 1));
+				neighbourCoordinates.add(new Coordinate(row + 1, column + 1));
+			}
+		}
+
+		if (column == 11) {
+			if (!isShorterRow) {
+				neighbourCoordinates.add(new Coordinate(row - 1, column - 1));
+				neighbourCoordinates.add(new Coordinate(row - 1, column));
+				neighbourCoordinates.add(new Coordinate(row, column - 1));
+				neighbourCoordinates.add(new Coordinate(row, column + 1));
+				neighbourCoordinates.add(new Coordinate(row + 1, column - 1));
+				neighbourCoordinates.add(new Coordinate(row + 1, column));
+			} else {
+				neighbourCoordinates.add(new Coordinate(row - 1, column));
+				neighbourCoordinates.add(new Coordinate(row - 1, column + 1));
+				neighbourCoordinates.add(new Coordinate(row, column - 1));
+				neighbourCoordinates.add(new Coordinate(row + 1, column));
+				neighbourCoordinates.add(new Coordinate(row + 1, column + 1));
+			}
+		}
+		return neighbourCoordinates;
 	}
 
 }
