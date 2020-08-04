@@ -1,5 +1,6 @@
 package util;
 
+import tm.GenerateMapTM;
 import tm.GraphTM;
 import tm.MapTM;
 
@@ -13,6 +14,10 @@ public class Main {
 		GraphTM graph = new GraphTM(map);
 		// Evaluating the map 
 		System.out.printf("Score = %.1f\n", graph.evaluate());
+		
+		// Generating a random map (to start optimizing)
+		MapTM random_map = GenerateMapTM.generateRandomMapTM();
+		
 		
 	}
 
