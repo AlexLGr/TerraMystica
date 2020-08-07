@@ -3,6 +3,7 @@ import tm.GenerateMapTM;
 import tm.GraphTM;
 import tm.MapTM;
 import util.Snellman;
+import util.WriteImage;
 
 public class Main {
 
@@ -17,6 +18,12 @@ public class Main {
 
 		// Generating a random map (to start optimizing)
 		MapTM random_map = GenerateMapTM.generateRandomMapTM();
+		// Creating a graph from the map
+		GraphTM g2 = new GraphTM(random_map);
+		// Evaluating the map
+		System.out.printf("Score = %.1f\n", g2.evaluate());
+
+		WriteImage.generatePNG(random_map, "Random map", "output/random-map.PNG");
 
 	}
 
