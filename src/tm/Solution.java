@@ -12,24 +12,40 @@ import tm.GraphTM;
 import tm.MapTM;
 import tm.TypeTerrain;
 
+/**
+ * Class representing a solution (an optimized map)
+ * 
+ * @author l.araujo
+ * @author a.grichshenko
+ *
+ */
+
 public class Solution implements Comparable<Solution> {
+	
+	/**
+	 * Map object
+	 */
 	public MapTM map;
-	public ArrayList<String> data;
 
 	public Solution(MapTM map) {
 		this.map = map.copy();
 		this.score = Double.NaN;
-		this.data = new ArrayList<String>();
 	}
-
+	
+	/**
+	 * Current fitness value of the map
+	 */
 	private double score;
 	
+	/**
+	 * Getter method of the score with regard to the chosen fitness function
+	 * @param fitnessFunction Fitness function used to evaluate the map
+	 * @return Map score
+	 */
 	public double getScore(Method fitnessFunction) {
 
 		if (!Double.isNaN(score))
 			return score;
-
-		// calculate the score
 		this.score = 0;
 		MapTM ABCDEF = this.map.copy();
 		this.score += getScore(ABCDEF, fitnessFunction);
@@ -40,8 +56,9 @@ public class Solution implements Comparable<Solution> {
 	/**
 	 * Calculating the score for a single configuration.
 	 * 
-	 * @param mapConfig
-	 * @return
+	 * @param mapConfig Map to be evaluated
+	 * @param fitness_function Fitness function used to evaluate the map
+	 * @return Map score
 	 * @throws InvocationTargetException
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
@@ -59,12 +76,12 @@ public class Solution implements Comparable<Solution> {
 	}
 
 	/**
-	 * Randomly selecting a tile and then swapping two random hexes.
+	 * Swapping two hexagons in the map
 	 * 
-	 * @param sol
-	 * @return
+	 * @param chosen First hexagon
+	 * @param nb Second hexagon
+	 * @param sol Solution in which the swapping will be performed
 	 */
-	
 	public static void perturb(Coordinate chosen, Coordinate nb, Solution sol) {
 		
 		int row1 = chosen.row;
@@ -77,6 +94,11 @@ public class Solution implements Comparable<Solution> {
 		sol.map.hexes[row2][col2] = buff;
 	}
 	
+	/**
+	 * Randomly swapping two hexagons in each tile
+	 * 
+	 * @param sol Solution in which the swapping will be performed
+	 */
 	public static void perturb(Solution sol) {
 
 		// PERTURBING TILE A:
@@ -172,6 +194,12 @@ public class Solution implements Comparable<Solution> {
 		sol.map.hexes[row2][col2] = buff;
 	}
 
+	/**
+	 * Swapping two hexagons (that must be of land color) in the map
+	 * 
+	 * @param sol Solution in which the swapping will be performed
+	 * @return
+	 */
 	public static void perturbLands(Solution sol) {
 
 		GraphTM graph = new GraphTM(sol.map.copy());
@@ -317,18 +345,6 @@ public class Solution implements Comparable<Solution> {
 		sol.map.hexes[row1][col1] = sol.map.hexes[row2][col2];
 		sol.map.hexes[row2][col2] = buff;
 
-	}
-
-	/**
-	 * Special perturbation leveraging from knowledge from the domain. Swapping the
-	 * two worse hexes from the worse tile.
-	 * 
-	 * @param sol
-	 * @return
-	 */
-	public static Solution specialPerturb(Solution sol) {
-		// TODO Implement the perturb within a tile
-		return null;
 	}
 
 	@Override

@@ -4,30 +4,55 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Coordinate {
-	public int row;
-	public int column;
+/**
+ * This class is used to refer to individual coordinates of hexagons on the map
+ * 
+ * @author l.araujo
+ * @author a.grichshenko
+ *
+ */
 
+public class Coordinate {
+	/**
+	 * Row from 0 to 8
+	 */
+	public int row;
+	/**
+	 * Column from 0 to 12
+	 */
+	public int column;
+	
+	/**
+	 * Constructor method
+	 */
 	public Coordinate(int row, int column) {
 		this.row = row;
 		this.column = column;
 	}
-
+	
+	/**
+	 * Determines whether this coordinate is located on the border of the map
+	 * 
+	 * @return True if the coordinate is on the border, False otherwise
+	 */
 	public boolean isBorder() {
 		if (row == 0 || row == 8 || column == 0 || column == 12) {
-			// border = true;
 			return true;
 		} else {
 			if (row % 2 == 1 && column == 11) {
-				// border = true;
 				return true;
 			} else {
-				// border = false;
 				return false;
 			}
 		}
 	}
-
+	
+	/**
+	 * Checks if two coordinates are equal to each other (have the same row and column)
+	 * 
+	 * @param obj A coordinate to be compared
+	 * @return True if the coordinate are equal, False otherwise
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		Coordinate c = (Coordinate) obj;
@@ -36,16 +61,21 @@ public class Coordinate {
 		else
 			return false;
 	}
-
+	
+	/**
+	 * Outputs the hash code of the coordinate
+	 * 
+	 * @return Hash code
+	 */
 	@Override
 	public int hashCode() {
 		return (this.row + "," + this.column).hashCode();
 	}
 
 	/**
-	 * Returns the list of all valid coordinates in a map.
+	 * Obtaining all valid coordinates located in the map
 	 * 
-	 * @return
+	 * @return ArrayList of coordinates
 	 */
 	public static ArrayList<Coordinate> allCoordinates() {
 		ArrayList<Coordinate> allCoordinates = new ArrayList<Coordinate>();
@@ -58,7 +88,12 @@ public class Coordinate {
 		}
 		return allCoordinates;
 	}
-
+	
+	/**
+	 * Determining the coordinates that are adjacent to the given coordinate 
+	 * 
+	 * @return Set of coordinates
+	 */
 	public Set<Coordinate> neighbourCoordinates() {
 		Set<Coordinate> neighbourCoordinates = new HashSet<Coordinate>();
 

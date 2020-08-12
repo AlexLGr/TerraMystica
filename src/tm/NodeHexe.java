@@ -12,8 +12,6 @@ import java.util.Map;
  */
 public class NodeHexe {
 
-	// Information for node
-
 	/**
 	 * A collection that contains no duplicate elements, in this case, neighbours
 	 */
@@ -25,8 +23,6 @@ public class NodeHexe {
 	 * Color for effects of graph algorithms, not the terrain type
 	 */
 	public String color;
-
-	// Information for hexes
 
 	public Coordinate coordinate;
 

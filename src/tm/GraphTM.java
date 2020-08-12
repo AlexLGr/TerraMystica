@@ -8,15 +8,25 @@ import tm.Coordinate;
 import tm.NodeHexe;
 import tm.TypeTerrain;
 
-public class GraphTM {
+/**
+ * Graph representation of the Terra Mystica map
+ * 
+ * @author l.araujo
+ * @author a.grichshenko
+ *
+ */
 
+public class GraphTM {
+	
+	/**
+	 * Hashtable of coordinates and hexagons
+	 */
 	public Hashtable<Coordinate, NodeHexe> hash;
 
 	/**
 	 * Generate a graph
 	 * 
-	 * @param mapTM
-	 * @return
+	 * @param mapTM Object of MapTM class from which a graph is to be generated
 	 */
 	public GraphTM(MapTM mapTM) {
 		hash = new Hashtable<Coordinate, NodeHexe>();
@@ -115,10 +125,22 @@ public class GraphTM {
 		}
 	}
 	
+	/**
+	 * Obtain the first node of the graph
+	 * 
+	 * @return NodeHexe instance with the coordinate (0, 0)
+	 */
 	public NodeHexe getFirstNode() {
 		return hash.get(new Coordinate(0, 0));
 	}
-
+	
+	/**
+	 * Graph traversal using DFS of only land hexagons
+	 * 
+	 * @param length Current length of a connected component
+	 * @param key Current coordinate being processed
+	 * @return Length of a connected component
+	 */
 	public int DFS2(int length, Coordinate key) {
 		this.hash.get(key).processed = true;
 		NodeHexe current_node = this.hash.get(key);
@@ -131,26 +153,14 @@ public class GraphTM {
 		}
 		return length;
 	}
-
-	public int islandLength() {
-		int errors = 0;
-		ArrayList<Integer> cc = new ArrayList<>();
-		Set<Coordinate> keys = this.hash.keySet();
-
-		for (Coordinate key : keys) {
-			if (this.hash.get(key).typeTerrain != TypeTerrain.RIVER && this.hash.get(key).processed == false) {
-				int length = 1;
-				cc.add(this.DFS2(length, key));
-			}
-		}
-		for (Integer i : cc) {
-			if (i < 4) {
-				errors++;
-			}
-		}
-		return errors;
-	}
 	
+	/**
+	 * Graph traversal using DFS of only river hexagons
+	 * 
+	 * @param length Current length of a connected component
+	 * @param key Current coordinate being processed
+	 * @return Length of a connected component
+	 */
 	private int DFS(int length, Coordinate key) {
 		this.hash.get(key).processed = true;
 		NodeHexe current_node = this.hash.get(key);
@@ -163,7 +173,12 @@ public class GraphTM {
 		}
 		return length;
 	}
-
+	
+	/**
+	 * Determine the number of errors associated with connected river components
+	 * 
+	 * @return n-2, for every n separate connected river component
+	 */
 	public int connectedRivers() {
 		int errors = 0;
 		ArrayList<Integer> cc = new ArrayList<>();
@@ -183,7 +198,13 @@ public class GraphTM {
 
 		return errors;
 	}
-
+	
+	/**
+	 * Determine the number of errors associated with neighbours of river hexagons.
+	 * If the number of river neighbours of a river hexagon is not between 1-3, increase error count by one
+	 * 
+	 * @return Number of errors
+	 */
 	public int riverNeighbourhood() {
 		int errors = 0;
 		Set<Coordinate> keys = this.hash.keySet();
@@ -229,7 +250,12 @@ public class GraphTM {
 		}
 		return errors;
 	}
-
+	
+	/**
+	 * Determine the number of errors associated with two neighbouring hexagons being of the same color
+	 * 
+	 * @return Number of occurences of two neighbouring hexagons being of the same color
+	 */
 	public int sameColorNeighbours() {
 		int errors = 0;
 		Set<Coordinate> keys = this.hash.keySet();
@@ -250,6 +276,11 @@ public class GraphTM {
 		return errors;
 	}
 	
+	/**
+	 * Determine the number of errors associated with neighbouring that can be terraformed using only one spade
+	 * 
+	 * @return Number of occurences when none of the neighbours of a hexagon can be terraformed using only one spade
+	 */
 	public int oneSpadeNeighbour() {
 		int errors = 0;
 		Set<Coordinate> keys = this.hash.keySet();
@@ -276,14 +307,15 @@ public class GraphTM {
 		return errors;
 	}
 	
+	/**
+	 * Fitness function
+	 * 
+	 * @return Fitness value of a map
+	 */
 	public double evaluate() {
-			// System.out.println(this.sameColorNeighbours());
 			int req1 = 1 * this.sameColorNeighbours();
-			// System.out.println(this.oneSpadeNeighbour());
 			int req2 = 1 * this.oneSpadeNeighbour();
-			// System.out.println(this.connectedRivers());
 			int req3 = 1 * this.connectedRivers();
-			// System.out.println(this.riverNeighbourhood());
 			int req4 = 1 * this.riverNeighbourhood();
 	
 			int errors = req1 + req2 + req3 + req4;

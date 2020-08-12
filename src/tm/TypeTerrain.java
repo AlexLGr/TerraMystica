@@ -4,9 +4,24 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Class representing a terrain type (color) in the map
+ * 
+ * @author l.araujo
+ * @author a.grichshenko
+ *
+ */
+
 public enum TypeTerrain implements Serializable {
 	RIVER, YELLOW, RED, GRAY, GREEN, BLUE, BLACK, BROWN, NONE;
-
+	
+	/**
+	 * Determine how many spades are needed to terraform a hexagon of first color to the second color
+	 * 
+	 * @param terrain1 First color
+	 * @param terrain2 Second color
+	 * @return Number of spades
+	 */
 	public static int spadeDistance(TypeTerrain terrain1, TypeTerrain terrain2) {
 		// circular buffer - was too lazy to build a 7:7 matrix :D
 		TypeTerrain[] terraCircle = { YELLOW, BROWN, BLACK, BLUE, GREEN, GRAY, RED };
@@ -40,6 +55,12 @@ public enum TypeTerrain implements Serializable {
 		}
 	}
 	
+	/**
+	 * Determine the colors that require only one spade to be terraformed to from the given color
+	 * 
+	 * @param terrain Given color
+	 * @return List of TypeTerrain instances
+	 */
 	public static ArrayList<TypeTerrain> getOneSpadeNeighbours(TypeTerrain terrain) {
 		ArrayList<TypeTerrain> neighbours = new ArrayList<>();
 		TypeTerrain[] terraCircle = { YELLOW, BROWN, BLACK, BLUE, GREEN, GRAY, RED };
