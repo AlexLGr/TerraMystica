@@ -2,10 +2,7 @@ package tm;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
-import java.util.Set;
 
 import tm.Coordinate;
 import tm.GraphTM;
@@ -92,8 +89,47 @@ public class Solution implements Comparable<Solution> {
 		TypeTerrain buff = sol.map.hexes[row1][col1];
 		sol.map.hexes[row1][col1] = sol.map.hexes[row2][col2];
 		sol.map.hexes[row2][col2] = buff;
+		
 	}
-
+	
+	/**
+	 * Swapping two random hexagons in the map
+	 * 
+	 * @param sol Solution in which the swapping will be performed
+	 */
+	public static void perturb(Solution sol) {
+		
+		Random rng = new Random();
+		
+		int row1 = 0;
+		int col1 = 0;
+		int row2 = 0;
+		int col2 = 0;
+		while (true) {
+			row1 = rng.nextInt(9);
+			col1 = rng.nextInt(13);
+			if (row1 % 2 == 1 && col1 == 12) {
+				continue;
+			}else {
+				break;
+			}
+		}
+		
+		while (true) {
+			row2 = rng.nextInt(9);
+			col2 = rng.nextInt(13);
+			if (row2 % 2 == 1 && col2 == 12) {
+				continue;
+			}else {
+				break;
+			}
+		}
+		
+		TypeTerrain buff = sol.map.hexes[row1][col1];
+		sol.map.hexes[row1][col1] = sol.map.hexes[row2][col2];
+		sol.map.hexes[row2][col2] = buff;
+	}
+	
 	@Override
 	public int compareTo(Solution arg0) {
 		if (this.score > arg0.score) {

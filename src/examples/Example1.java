@@ -14,6 +14,7 @@ import util.WriteImage;
  */
 
 public class Example1 {
+	
 	public static void main(String[] args) {
 
 		// Obtaining a map object from a textual representation of the map

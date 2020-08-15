@@ -133,22 +133,6 @@ public class GenerateMapTM {
 
 		return map;
 	}
-
-	/**
-	 * Generating a configuration that distributes just rivers on the map
-	 * 
-	 * @return MapTM instance
-	 */
-	public static MapTM generateRandomRiver() {
-		MapTM riverMap = new MapTM();
-		ArrayList<Coordinate> allCoordinates = Coordinate.allCoordinates();
-		Collections.shuffle(allCoordinates);
-		for (int i = 0; i < riverTiles().size(); i++) {
-			Coordinate coordinate = allCoordinates.get(i);
-			riverMap.hexes[coordinate.row][coordinate.column] = TypeTerrain.RIVER;
-		}
-		return riverMap;
-	}
 	
 	/**
 	 * Method to obtain land tile colors

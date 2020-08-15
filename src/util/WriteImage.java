@@ -18,10 +18,8 @@ import java.io.ObjectOutputStream;
 import javax.imageio.ImageIO;
 
 import tm.Coordinate;
-import tm.GraphTM;
 import tm.MapTM;
 import tm.TypeTerrain;
-import tm.GenerateMapTM;
 
 /**
  * A class used to output the image of the map.
