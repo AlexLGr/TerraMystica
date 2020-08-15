@@ -180,5 +180,60 @@ public class GenerateMapTM {
 			list.add(TypeTerrain.RIVER);
 		return list;
 	}
+	
+	/**
+	 * Print out the version to be used with: https://terra.snellman.net/mapedit/#
+	 * 
+	 * @param riverABCDEF Map to be printed
+	 */
+	public static String mapAsText(MapTM riverABCDEF) {
+		StringBuilder sb = new StringBuilder();
+		for (int r = 0; r < 9; r++) {
+			for (int c = 0; c < 13; c++) {
+				if (r % 2 == 1 && c == 12)
+					continue;
+				switch (riverABCDEF.hexes[r][c]) {
+				case BLACK:
+					sb.append("K");
+					break;
+				case BLUE:
+					sb.append("B");
+					break;
+				case BROWN:
+					sb.append("U");
+					break;
+				case GRAY:
+					sb.append("S");
+					break;
+				case GREEN:
+					sb.append("G");
+					break;
+				case RED:
+					sb.append("R");
+					break;
+				case YELLOW:
+					sb.append("Y");
+					break;
+				case RIVER:
+					sb.append("I");
+					break;
+				default:
+					break;
+				}
+				if (r % 2 == 1) {
+					if (c < 11)
+						sb.append(",");
+					else if (c == 11)
+						sb.append(",N,\n");
+				} else {
+					if (c < 12)
+						sb.append(",");
+					else if (c == 12)
+						sb.append(",\n");
+				}
+			}
+		}
+		return sb.toString();
+	}
 
 }

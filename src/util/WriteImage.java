@@ -21,9 +21,24 @@ import tm.Coordinate;
 import tm.GraphTM;
 import tm.MapTM;
 import tm.TypeTerrain;
+import tm.GenerateMapTM;
+
+/**
+ * A class used to output the image of the map.
+ * 
+ * @author l.araujo
+ *
+ */
 
 public class WriteImage {
-
+	
+	/**
+	 * Generating a PNG version of the map and saving it to file.
+	 * 
+	 * @param map Map to be converted to PNG
+	 * @param message Message displayed on the map (f.e. the fitness score)
+	 * @param fileName Path to the file where the PNG will be saved
+	 */
 	public static void generatePNG(MapTM map, String message, String fileName) {
 		try {
 			int width = 630, height = 400;
@@ -38,13 +53,7 @@ public class WriteImage {
 			// Plotting text
 			Font font = new Font("TimesRoman", Font.BOLD, 20);
 			ig2.setFont(font);
-			// String message = "Score = ";
-			// FontMetrics fontMetrics = ig2.getFontMetrics();
-			// int stringWidth = fontMetrics.stringWidth(message);
-			// int stringHeight = fontMetrics.getAscent();
 			ig2.setPaint(Color.black);
-			// ig2.drawString(message, (width - stringWidth) / 2, height / 2 + stringHeight
-			// / 4);
 			ig2.drawString(message, 20, 20);
 
 			// Adding polygon
@@ -70,30 +79,23 @@ public class WriteImage {
 				center.y += 1.5 * size;
 			}
 
-			/*
-			 * // Plotting and image int WIDTH = 100;
-			 * 
-			 * int[] xPoints = { WIDTH / 3, (2 * WIDTH) / 3, WIDTH / 3 }; int[] yPoints = {
-			 * 0, WIDTH / 2, WIDTH }; ig2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-			 * RenderingHints.VALUE_ANTIALIAS_ON); ig2.setColor(Color.green);
-			 * ig2.drawLine(0, WIDTH - 1, WIDTH, WIDTH - 1); ig2.drawLine(0, 0, WIDTH, 0);
-			 * ig2.drawLine(WIDTH / 3, 0, WIDTH / 3, WIDTH); ig2.drawLine((2 * WIDTH / 3),
-			 * 0, (2 * WIDTH / 3), WIDTH); ig2.setColor(Color.black);
-			 * ig2.drawPolygon(xPoints, yPoints, xPoints.length); ig2.setColor(Color.black);
-			 * ig2.fillPolygon(xPoints, yPoints, xPoints.length); ig2.dispose();
-			 */
-
 			ImageIO.write(bi, "PNG", new File(fileName));
-			// ImageIO.write(bi, "JPEG", new File("output\\yourImageName.JPG"));
-			// ImageIO.write(bi, "gif", new File("output\\yourImageName.GIF"));
-			// ImageIO.write(bi, "BMP", new File("output\\yourImageName.BMP"));
 
 		} catch (IOException ie) {
 			ie.printStackTrace();
 		}
 
 	}
-
+	
+	/**
+	 * Function to draw a single hexagon
+	 * 
+	 * @param center
+	 * @param size
+	 * @param colorBorder
+	 * @param colorFill
+	 * @param g2D
+	 */
 	private static void drawHexagon(Point center, double size, Color colorBorder, Color colorFill, Graphics2D g2D) {
 		Polygon p = new Polygon();
 		for (int i = 0; i < 6; i++) {
@@ -116,7 +118,10 @@ public class WriteImage {
 		g2D.setStroke(new BasicStroke(2));
 		g2D.drawPolygon(p);
 	}
-
+	
+	/**
+	 * Converting a TypeTerrain instance to Color instance for drawing
+	 */
 	private static Color convert(TypeTerrain terrain) {
 		if (terrain == TypeTerrain.RED)
 			return Color.RED;
@@ -145,11 +150,18 @@ public class WriteImage {
 		return new Color(102, 0, 153);
 
 	}
-
+	
+	/**
+	 * Just outputting white color
+	 *
+	 */
 	private static Color convert(Coordinate c) {
 		return Color.WHITE;
 	}
-
+	
+	/**
+	 * Serializing the map and saving to the specified file
+	 */
 	public static void serializeMapTM(MapTM mapTM, String fileName) {
 		// Serialization
 		try {
@@ -165,7 +177,10 @@ public class WriteImage {
 			ex.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Retrieving the map from a file
+	 */
 	public static MapTM deserializeMapTM(String fileName) {
 		MapTM map = null;
 		// Deserialization
@@ -182,17 +197,6 @@ public class WriteImage {
 			ex.printStackTrace();
 		}
 		return map;
-	}
-
-	public static String reportMap(MapTM map) {
-		StringBuilder sb = new StringBuilder();
-		GraphTM graph_final = new GraphTM(map);
-		sb.append("\nColor-color conflict (req01): " + graph_final.sameColorNeighbours());
-		sb.append("\n3 or more land neighbours but no 1 spade distance neighbour (req09): "
-				+ graph_final.oneSpadeNeighbour());
-		sb.append("Map as text:\n");
-		sb.append(Snellman.mapAsText(map));
-		return sb.toString();
 	}
 
 }

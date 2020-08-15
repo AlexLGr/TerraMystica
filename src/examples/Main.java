@@ -1,8 +1,8 @@
+package examples;
 
 import tm.GenerateMapTM;
 import tm.GraphTM;
 import tm.MapTM;
-import util.Snellman;
 import util.WriteImage;
 
 public class Main {
@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		// Obtaining a map object from a textual representation of the map
-		MapTM map = Snellman.getOriginalMap();
+		MapTM map = GenerateMapTM.getOriginalMap();
 		// Creating a graph from the map
 		GraphTM graph = new GraphTM(map);
 		// Evaluating the map

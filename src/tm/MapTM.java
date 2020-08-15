@@ -12,7 +12,10 @@ import java.util.Map;
  */
 @SuppressWarnings("serial")
 public class MapTM implements Serializable {
-
+	
+	/**
+	 * A 2D array of hexagons representing a map
+	 */
 	public TypeTerrain[][] hexes = new TypeTerrain[9][13];
 
 	public double score = Double.NaN;
@@ -21,7 +24,11 @@ public class MapTM implements Serializable {
 	 * Just a heap area.
 	 */
 	public Map<String, String> dictionary = new HashMap<String, String>();
-
+	
+	/**
+	 * Copying the map
+	 * @return New MapTM object identical to the given one
+	 */
 	public MapTM copy() {
 		MapTM copy = new MapTM();
 		copy.hexes = new TypeTerrain[9][13];

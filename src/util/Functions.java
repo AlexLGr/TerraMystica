@@ -12,150 +12,18 @@ import tm.GraphTM;
 import tm.MapTM;
 import tm.TypeTerrain;
 
+/**
+ * Class combining some useful auxiliary functions.
+ * 
+ * @author l.araujo
+ *
+ */
+
 public class Functions {
 	
-	public static MapTM rotateA(MapTM map) {
-		MapTM map_rotated = map.copy();
-		for(int row = 0; row < 5; row ++) {
-			boolean isShorterRow = (row % 2 != 0);
-			for(int column = 0; column < 6; column ++) {
-				if (column == 5 && isShorterRow) {
-					continue;
-				}
-				if (isShorterRow) {
-					map_rotated.hexes[row][column] = map.hexes[4-row][4-column];
-				}else {
-					map_rotated.hexes[row][column] = map.hexes[4-row][5-column];
-				}
-			}
-		}
-		return map_rotated;
-	}
-	
-	public static MapTM rotateC(MapTM map) {
-		MapTM map_rotated = map.copy();
-		for(int row = 0; row < 5; row ++) {
-			boolean isShorterRow = (row % 2 != 0);
-			int count = 5;
-			for(int column = 7; column < 13; column ++) {
-				if (column == 12 && isShorterRow) {
-					continue;
-				}
-				if (isShorterRow) {
-					map_rotated.hexes[row][column] = map.hexes[4-row][column + count - 1];
-					count = count - 2;
-				}else {
-					map_rotated.hexes[row][column] = map.hexes[4-row][column + count];
-					count = count - 2;
-				}
-			}
-		}
-		return map_rotated;
-	}
-	
-	public static MapTM rotateD(MapTM map) {
-		MapTM map_rotated = map.copy();
-		int [] row_conversion = {4, 5, 6, 7, 8};
-		for(int row = 4; row < 9; row ++) {
-			boolean isShorterRow = (row % 2 == 0);
-			for(int column = 0; column < 6; column ++) {
-				if (column == 5 && isShorterRow) {
-					continue;
-				}
-				if (isShorterRow) {
-					map_rotated.hexes[row][column] = map.hexes[row_conversion[8-row]][4-column];
-				}else {
-					map_rotated.hexes[row][column] = map.hexes[row_conversion[8-row]][5-column];
-				}
-			}
-		}
-		return map_rotated;
-	}
-	
-	public static MapTM rotateF(MapTM map) {
-		MapTM map_rotated = map.copy();
-		int [] row_conversion = {4, 5, 6, 7, 8};
-		for(int row = 4; row < 9; row ++) {
-			boolean isShorterRow = (row % 2 == 0);
-			int count = 5;
-			for(int column = 7; column < 13; column ++) {
-				if (column == 12 && isShorterRow) {
-					continue;
-				}
-				if (isShorterRow) {
-					map_rotated.hexes[row][column] = map.hexes[row_conversion[8-row]][column + count - 1];
-					count = count - 2;
-				}else {
-					map_rotated.hexes[row][column] = map.hexes[row_conversion[8-row]][column + count];
-					count = count - 2;
-				}
-			}
-		}
-		return map_rotated;
-	}
-	
-	public static MapTM swapAC(MapTM map, int map_mode) {
-		MapTM map_swap = map.copy();
-		int row_limit = 0;
-		if (map_mode == 0){
-			row_limit = 5;
-		}else {
-			row_limit = 4;
-		}
-		for(int row = 0; row < row_limit; row++) {
-			boolean isShorterRow = false;
-			if (map_mode == 0) {
-				isShorterRow = (row % 2 != 0);
-			}else {
-				isShorterRow = (row % 2 == 0);
-			}
-			for(int column = 0; column < 6; column++) {
-				if(column == 5 && isShorterRow) {
-					continue;
-				}
-				map_swap.hexes[row][column] = map.hexes[row][column + 7];
-			}
-			for(int column = 7; column < 13; column++) {
-				if(column == 12 && isShorterRow) {
-					continue;
-				}
-				map_swap.hexes[row][column] = map.hexes[row][column - 7];
-			}
-		}
-		return map_swap;
-	}
-	
-	public static MapTM swapDF(MapTM map, int map_mode) {
-		MapTM map_swap = map.copy();
-		int row_start = 0;
-		if (map_mode == 0){
-			row_start = 5;
-		}else {
-			row_start = 4;
-		}
-		for(int row = row_start; row < 9; row++) {
-			boolean isShorterRow = false;
-			if (map_mode == 0) {
-				isShorterRow = (row % 2 != 0);
-			}else {
-				isShorterRow = (row % 2 == 0);
-			}
-			for(int column = 0; column < 6; column++) {
-				if(column == 5 && isShorterRow) {
-					continue;
-				}
-				map_swap.hexes[row][column] = map.hexes[row][column + 7];
-			}
-			for(int column = 7; column < 13; column++) {
-				if(column == 12 && isShorterRow) {
-					continue;
-				}
-				map_swap.hexes[row][column] = map.hexes[row][column - 7];
-			}
-		}
-		return map_swap;
-	}
-	
+	/**
+	 * Obtaining the union of two lists 
+	 */
 	public static <T> List<T> union(List<T> list1, List<T> list2) {
 		Set<T> set = new HashSet<T>();
 
@@ -164,7 +32,10 @@ public class Functions {
 
 		return new ArrayList<T>(set);
 	}
-
+	
+	/**
+	 * Obtaining the intersection of two lists 
+	 */
 	public static <T> List<T> intersection(List<T> list1, List<T> list2) {
 		List<T> list = new ArrayList<T>();
 
@@ -176,7 +47,10 @@ public class Functions {
 
 		return list;
 	}
-
+	
+	/**
+	 * Converting a set to list
+	 */
 	public static <T> List<T> convertList(Set<T> set) {
 		List<T> list = new ArrayList<T>();
 
@@ -185,7 +59,10 @@ public class Functions {
 
 		return list;
 	}
-
+	
+	/**
+	 * Obtaining first n elements of the list
+	 */
 	public static <T> ArrayList<T> firstN(List<T> list, int n) {
 		ArrayList<T> firstN = new ArrayList<T>();
 
@@ -198,8 +75,6 @@ public class Functions {
 	/**
 	 * Auxiliary method for generating matrices Colour x Colour.
 	 * 
-	 * @param terrain
-	 * @return
 	 */
 	public static int convertTerrainToInt(TypeTerrain terrain) {
 		switch (terrain) {
@@ -225,6 +100,9 @@ public class Functions {
 		}
 	}
 	
+	/**
+	 * Converting integer value to TypeTerrain
+	 */
 	public static TypeTerrain convertIntToTerrain(int i) {
 		switch (i) {
 		case 0:
@@ -250,7 +128,8 @@ public class Functions {
 
 	/**
      * Use Files class from Java 1.7 to write files, internally uses OutputStream
-     * @param data
+     * @param data String to be written into the file
+     * @param fileName Path to the file to be written
      */
     public static void writeFile(String data, String fileName) {
         try {
